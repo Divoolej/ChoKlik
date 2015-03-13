@@ -14,7 +14,6 @@ import android.widget.ListView;
 
 import java.io.IOException;
 
-
 public class ChoklikActivity extends ActionBarActivity {
 
     private static final String TAG = "ChoklikActivity";
@@ -83,9 +82,10 @@ public class ChoklikActivity extends ActionBarActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    String result = new AllegroClient().getUrl("http://allegro.pl");
-                    Log.i(TAG, "Fetched contents of URL: " + result);
-                } catch (IOException ioe) {
+                    AllegroClient.fetchSearchResults();
+//                    String result = new AllegroClient().getUrl("http://allegro.pl");
+//                    Log.i(TAG, "Fetched contents of URL: " + result);
+                } catch (Exception ioe) {
                     Log.e(TAG, "Failed to fetch URL");
                 }
                 return null;
