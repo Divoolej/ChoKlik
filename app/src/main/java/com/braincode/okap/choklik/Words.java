@@ -14,29 +14,29 @@ public class Words {
 
     private static HashMap<Character, ArrayList<Character> > InitializeKeyMap() {
         HashMap<Character, ArrayList<Character> > map = new HashMap<>();
-        ArrayList<Character> array = new ArrayList<>(1);
+        ArrayList<Character> array = new ArrayList<>(2);
 
-        array.add('w');
+        array.add('w'); array.add('w');
         map.put('q', array);
 
         array.clear();
-        array.add('s');
+        array.add('s'); array.add('s');
         map.put('a', array);
 
         array.clear();
-        array.add('x');
+        array.add('x'); array.add('x');
         map.put('z', array);
 
         array.clear();
-        array.add('o');
+        array.add('o'); array.add('o');
         map.put('p', array);
 
         array.clear();
-        array.add('k');
+        array.add('k'); array.add('k');
         map.put('l', array);
 
         array.clear();
-        array.add('n');
+        array.add('n'); array.add('n');
         map.put('m', array);
 
         String s = "qwertyuiop";
@@ -71,18 +71,21 @@ public class Words {
 
     public static void main(String[] args) {
         try {
-            getPossibleMisspelledWords("samsung daj");
+            for (String s : getPossibleMisspelledWords("samsung daj")) {
+                System.out.println(s);
+            }
         } catch (WordsException we) {
             System.out.println(we.getMessage());
         }
     }
 
     public static ArrayList<String> getPossibleMisspelledWords(String givenString) throws WordsException {
-        String[] wordsInString = givenString.
+        String correctString = givenString.
                 replace(",", "").
                 replace("?", "").
                 replace("!", "").
-                replace("\"", "").split("\\s+");
+                replace("\"", "");
+        String[] wordsInString = correctString.split("\\s+");
 
         if (!checkLength(wordsInString)) {
             throw new WordsException("Bad string");
@@ -94,9 +97,11 @@ public class Words {
             if (word.length() > 2) {
                 ArrayList<String> subResult = new ArrayList<>();
                 subResult = generateMisspells(word);
-
-            } else {
-                continue;
+                for (String s : subResult) {
+                    query += correctString.replace(word, s) + ", ";
+                }
+                query = query.substring(0, query.length()-2) + "}";
+                result.add(query);
             }
         }
 
@@ -106,17 +111,32 @@ public class Words {
     private static ArrayList<String> generateMisspells(String givenString) {
         ArrayList<String> result = new ArrayList<>();
         ArrayList<String> subresult = new ArrayList<>();
-        for (int i = 1; i < givenString.length() - 2; i++) {
+        for (int i = 1; i < givenString.length() - 1; i++) {
             char[] word = givenString.toCharArray();
             if (word[i] != word[i-1] && word[i] != word[i+1]) {
                 char a = word[i];
                 word[i] = word[i+1];
                 word[i+1] = a;
                 subresult.add(String.valueOf(word));
+                result.add(String.valueOf(word));
             }
         }
-
-        return subresult;
+        subresult.add(givenString);
+        for (String s : subresult) {
+            for (int i = 1; i < s.length() - 1; i++) {
+                char[] word = s.toCharArray();
+                if (keyMap.get(word[i]).get(0) != word[i-1] && keyMap.get(word[i]).get(0) != word[i+1]) {
+                    word[i] = keyMap.get(word[i]).get(0);
+                    result.add(String.valueOf(word));
+                }
+                word = s.toCharArray();
+                if (keyMap.get(word[i]).get(1) != word[i-1] && keyMap.get(word[i]).get(1) != word[i+1]) {
+                    word[i] = keyMap.get(word[i]).get(1);
+                    result.add(String.valueOf(word));
+                }
+            }
+        }
+        return result;
     }
 
     private static boolean checkLength(String[] givenString) {
