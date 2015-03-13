@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.io.IOException;
+import java.util.List;
 
 public class ChoklikActivity extends ActionBarActivity {
 
@@ -82,7 +82,10 @@ public class ChoklikActivity extends ActionBarActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    AllegroClient.fetchSearchResults();
+                    List<Offer> offerList = new AllegroClient().fetchSearchResults();
+                    for(Offer offer : offerList) {
+                        Log.i(TAG, "Offer: " + offer);
+                    }
 //                    String result = new AllegroClient().getUrl("http://allegro.pl");
 //                    Log.i(TAG, "Fetched contents of URL: " + result);
                 } catch (Exception ioe) {
@@ -91,7 +94,5 @@ public class ChoklikActivity extends ActionBarActivity {
                 return null;
             }
         }
-
     }
-
 }

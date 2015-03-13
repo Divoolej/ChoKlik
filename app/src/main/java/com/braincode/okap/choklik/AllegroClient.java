@@ -4,40 +4,34 @@ import android.util.Log;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
-import org.json.JSONException;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import retrofit.RestAdapter;
-import retrofit.http.POST;
-import retrofit.http.Query;
-import retrofit.http.QueryMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AllegroClient {
     public static final String TAG = "AlegroClient";
 
     public static final String ENDPOINT = "https://api.natelefon.pl/";
     public static final String METHOD_OFFERS = "v2/allegro/offers";
-    public static final String PARAM_SEARCH = "searchString";
 
-    public static String sessionToken = "cec5362e688b9a122846bb09c135295c";
+    public static String sessionToken = "d8989ae782d7f18e43e308c66d014df4";
+
+    ArrayList<Offer> offers = new ArrayList<>();
 
     byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
@@ -67,12 +61,7 @@ public class AllegroClient {
         return new String(getUrlBytes(urlSpec));
     }
 
-    interface SearchInterface {
-        @POST(METHOD_OFFERS)
-        void getSearchResults(@Query("searchString") String searchString);
-    }
-
-    public static void fetchSearchResults() {
+    public List<Offer> fetchSearchResults() {
         HttpClient client = new DefaultHttpClient();
         HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
         HttpResponse response;
@@ -93,12 +82,20 @@ public class AllegroClient {
                 InputStream in = response.getEntity().getContent();
                 StringWriter writer = new StringWriter();
                 IOUtils.copy(in, writer);
-                String result = writer.toString();
-                Log.i(TAG, "result: " + result);
+                JSONObject jsonObject = new JSONObject(writer.toString());
+
+                JSONArray array = jsonObject.getJSONArray("offers");
+
+                for(int i = 0; i < array.length(); i++) {
+                    offers.add(new Offer(array.getJSONObject(i)));
+                }
+                return offers;
             }
         } catch (Exception e) {
+            e.printStackTrace();
             Log.e(TAG, "Error while sending POST request, ", e);
         }
+        return new ArrayList<>();
     }
 //        try {
 //            RestAdapter restAdapter = new RestAdapter.Builder()
