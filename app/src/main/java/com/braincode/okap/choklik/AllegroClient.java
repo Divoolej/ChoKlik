@@ -56,17 +56,20 @@ public class AllegroClient {
     public static void fetchSearchResults() {
         try {
             Resty r = new Resty();
-            r.withHeader("content-type", "application/json");
+            r.withHeader("Content-Type", "application/json");
 
             String tokenParam = "?access_token=" + sessionToken;
 
             String url = ENDPOINT + METHOD_OFFERS + tokenParam;
             Log.i(TAG, "Search method url: " + url);
 
-            Log.i(TAG, r.json(url, form(
-                    data("searchString", "nokia"))).toString());
+            Log.i(TAG, r.text(url, form(
+                    data("searchString", "nokia"))).toString()
+            );
         } catch (IOException ioe) {
             Log.e(TAG, "error while fetching search results", ioe);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
