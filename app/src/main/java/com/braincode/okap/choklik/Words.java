@@ -5,6 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by divoolej on 13.03.15.
  */
+
 public class Words {
     public static void main(String[] args) {
         try {
