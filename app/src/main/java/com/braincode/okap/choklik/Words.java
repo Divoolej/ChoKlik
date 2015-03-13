@@ -1,4 +1,4 @@
-package com.braincode.okap.choklik;
+//package com.braincode.okap.choklik;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Words {
     public static void main(String[] args) {
         try {
-            getPossibleMisspelledWords("samusung! nowy obroża? dla.psa");
+            getPossibleMisspelledWords("samsung daj");
         } catch (WordsException we) {
             System.out.println(we.getMessage());
         }
@@ -22,17 +22,38 @@ public class Words {
                 replace("!", "").
                 replace("\"", "").split("\\s+");
 
-        if (checkLength(wordsInString)) {
+        if (!checkLength(wordsInString)) {
             throw new WordsException("Bad string");
         }
 
         ArrayList<String> result = new ArrayList<>();
 
         for (String word : wordsInString) {
+            if (word.length() > 2) {
+                ArrayList<String> subResult = new ArrayList<>();
+                subResult = generateMisspells(word);
 
+            } else {
+                continue;
+            }
         }
 
         return result;
+    }
+
+    private static ArrayList<String> generateMisspells(String givenString) {
+        ArrayList<String> result = new ArrayList<>();
+        ArrayList<String> subresult = new ArrayList<>();
+        for (int i = 1; i < givenString.length() - 2; i++) {
+            char[] word = givenString.toCharArray();
+            if (word[i] != word[i-1] && word[i] != word[i+1]) {
+                char a = word[i];
+                word[i] = word[i+1];
+                word[i+1] = a;
+                subresult.add(String.valueOf(word));
+            }
+        }
+        return subresult;
     }
 
     private static boolean checkLength(String[] givenString) {
