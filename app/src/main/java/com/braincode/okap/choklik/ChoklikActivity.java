@@ -1,16 +1,23 @@
 package com.braincode.okap.choklik;
 
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import java.io.IOException;
 
 
 public class ChoklikActivity extends ActionBarActivity {
+
+    private static final String TAG = "ChoklikActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,15 @@ public class ChoklikActivity extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+        ListView itemsListView;
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            setRetainInstance(true);
+            new FetchSearchResultsTask().execute();
+        }
 
         public PlaceholderFragment() {
         }
@@ -57,7 +73,25 @@ public class ChoklikActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_choklik, container, false);
+
+            itemsListView = (ListView)rootView.findViewById(R.id.itemsListView);
+
             return rootView;
         }
+
+        private class FetchSearchResultsTask extends AsyncTask<Void, Void, Void> {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    String result = new AllegroClient().getUrl("http://allegro.pl");
+                    Log.i(TAG, "Fetched contents of URL: " + result);
+                } catch (IOException ioe) {
+                    Log.e(TAG, "Failed to fetch URL");
+                }
+                return null;
+            }
+        }
+
     }
+
 }
