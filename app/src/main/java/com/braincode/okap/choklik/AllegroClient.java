@@ -83,30 +83,30 @@ public class AllegroClient {
 
         try {
             HttpPost post = new HttpPost(url);
-            json.put("searchString", searchQueries.get(0));
-            StringEntity se = new StringEntity(json.toString());
-            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-            post.setEntity(se);
-            response = client.execute(post);
+            for (String part : searchQueries) {
+                json.put("searchString", part);
+                StringEntity se = new StringEntity(json.toString());
+                se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                post.setEntity(se);
+                response = client.execute(post);
 
-            if(response!=null) {
-                InputStream in = response.getEntity().getContent();
-                StringWriter writer = new StringWriter();
-                IOUtils.copy(in, writer);
-                JSONObject jsonObject = new JSONObject(writer.toString());
+                if (response != null) {
+                    InputStream in = response.getEntity().getContent();
+                    StringWriter writer = new StringWriter();
+                    IOUtils.copy(in, writer);
+                    JSONObject jsonObject = new JSONObject(writer.toString());
 
-                JSONArray array = jsonObject.getJSONArray("offers");
+                    JSONArray array = jsonObject.getJSONArray("offers");
 
-                for(int i = 0; i < array.length(); i++) {
-                    offers.add(new Offer(array.getJSONObject(i)));
-                    Log.d(TAG, offers.get(i).toString());
+                    for (int i = 0; i < array.length(); i++) {
+                        offers.add(new Offer(array.getJSONObject(i)));
+                    }
                 }
-                return offers;
             }
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "Error while sending POST request, ", e);
         }
-        return new ArrayList<>();
+        return offers;
     }
 }
