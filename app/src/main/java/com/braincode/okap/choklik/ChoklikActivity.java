@@ -1,6 +1,7 @@
 package com.braincode.okap.choklik;
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -72,6 +73,7 @@ public class ChoklikActivity extends ActionBarActivity {
         ListView itemsListView;
         ArrayList<Offer> offers;
         ImageDownloader<ImageView> imageThread;
+        ProgressDialog dialog;
 
         EditText editText;
         ImageButton searchButton;
@@ -209,6 +211,7 @@ public class ChoklikActivity extends ActionBarActivity {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
+
                 if (convertView == null) {
                     convertView = getActivity().getLayoutInflater()
                             .inflate(R.layout.single_offer_layout, parent, false);
