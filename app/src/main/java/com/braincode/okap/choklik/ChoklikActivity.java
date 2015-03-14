@@ -70,6 +70,7 @@ public class ChoklikActivity extends ActionBarActivity {
             super.onCreate(savedInstanceState);
 
             setRetainInstance(true);
+            setHasOptionsMenu(true);
             new FetchSearchResultsTask().execute("samsung");
 
             imageThread = new ImageDownloader<>(new Handler());
