@@ -1,4 +1,4 @@
-//package com.braincode.okap.choklik;
+package com.braincode.okap.choklik;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -17,27 +17,27 @@ public class Words {
         ArrayList<Character> array = new ArrayList<>(2);
 
         array.add('w'); array.add('w');
-        map.put('q', array);
+        map.put('q', new ArrayList<>(array));
 
         array.clear();
         array.add('s'); array.add('s');
-        map.put('a', array);
+        map.put('a', new ArrayList<>(array));
 
         array.clear();
         array.add('x'); array.add('x');
-        map.put('z', array);
+        map.put('z', new ArrayList<>(array));
 
         array.clear();
         array.add('o'); array.add('o');
-        map.put('p', array);
+        map.put('p', new ArrayList<>(array));
 
         array.clear();
         array.add('k'); array.add('k');
-        map.put('l', array);
+        map.put('l', new ArrayList<>(array));
 
         array.clear();
         array.add('n'); array.add('n');
-        map.put('m', array);
+        map.put('m', new ArrayList<>(array));
 
         String s = "qwertyuiop";
 
@@ -45,7 +45,7 @@ public class Words {
             array.clear();
             array.add(s.charAt(i - 1));
             array.add(s.charAt(i + 1));
-            map.put(s.charAt(i), array);
+            map.put(s.charAt(i), new ArrayList<>(array));
         }
 
         s = "asdfghjkl";
@@ -54,7 +54,7 @@ public class Words {
             array.clear();
             array.add(s.charAt(i-1));
             array.add(s.charAt(i+1));
-            map.put(s.charAt(i), array);
+            map.put(s.charAt(i), new ArrayList<>(array));
         }
 
         s = "zxcvbnm";
@@ -63,7 +63,7 @@ public class Words {
             array.clear();
             array.add(s.charAt(i-1));
             array.add(s.charAt(i+1));
-            map.put(s.charAt(i), array);
+            map.put(s.charAt(i), new ArrayList<>(array));
         }
 
         return map;
@@ -71,7 +71,7 @@ public class Words {
 
     public static void main(String[] args) {
         try {
-            for (String s : getPossibleMisspelledWords("samsung daj")) {
+            for (String s : getPossibleMisspelledWords("samsung dupa")) {
                 System.out.println(s);
             }
         } catch (WordsException we) {
@@ -93,16 +93,27 @@ public class Words {
 
         ArrayList<String> result = new ArrayList<>();
 
+        String query = "{";
+        int count = 0;
+
         for (String word : wordsInString) {
             if (word.length() > 2) {
-                ArrayList<String> subResult = new ArrayList<>();
-                subResult = generateMisspells(word);
+                ArrayList<String> subResult = generateMisspells(word);
                 for (String s : subResult) {
                     query += correctString.replace(word, s) + ", ";
+                    count++;
+                    if (count == 10) {
+                        query = query.substring(0, query.length()-2) + "}";
+                        result.add(query);
+                        query = "{";
+                        count = 0;
+                    }
                 }
-                query = query.substring(0, query.length()-2) + "}";
-                result.add(query);
             }
+        }
+        if (count != 0) {
+            query = query.substring(0, query.length()-2) + "}";
+            result.add(query);
         }
 
         return result;
