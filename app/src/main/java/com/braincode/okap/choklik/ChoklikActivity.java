@@ -11,7 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +61,7 @@ public class ChoklikActivity extends ActionBarActivity {
 
         ListView itemsListView;
         ArrayList<Offer> offers;
+        ImageDownloader<ImageView> imageThread;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,11 @@ public class ChoklikActivity extends ActionBarActivity {
 
             setRetainInstance(true);
             new FetchSearchResultsTask().execute("samsung");
+
+            imageThread = new ImageDownloader<>();
+            imageThread.start();
+            imageThread.getLooper();
+            Log.i(TAG, "Background thread started");
         }
 
         public PlaceholderFragment() {
@@ -83,12 +91,20 @@ public class ChoklikActivity extends ActionBarActivity {
             return rootView;
         }
 
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            imageThread.quit();
+            Log.i(TAG, "Background thread destroyed");
+        }
+
         private void setupAdapter() {
             if (getActivity() == null || itemsListView == null) return;
 
             if (offers != null) {
-                itemsListView.setAdapter(new ArrayAdapter<>(getActivity(),
-                        android.R.layout.simple_list_item_1, offers));
+//                itemsListView.setAdapter(new ArrayAdapter<>(getActivity(),
+//                        android.R.layout.simple_list_item_1, offers));
+                itemsListView.setAdapter(new SingleOfferAdapter(offers));
             } else {
                 itemsListView.setAdapter(null);
             }
@@ -104,6 +120,29 @@ public class ChoklikActivity extends ActionBarActivity {
             protected void onPostExecute(ArrayList<Offer> offerList) {
                 offers = offerList;
                 setupAdapter();
+            }
+        }
+
+        private class SingleOfferAdapter extends ArrayAdapter<Offer> {
+            public SingleOfferAdapter(ArrayList<Offer> offers) {
+                super(getActivity(), 0, offers);
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    convertView = getActivity().getLayoutInflater()
+                            .inflate(R.layout.single_offer_layout, parent, false);
+                }
+
+
+                ImageView imageView = (ImageView)convertView
+                        .findViewById(R.id.offerImage);
+                imageView.setImageResource(R.drawable.loading);
+
+                Offer offer = getItem(position);
+
+                return convertView;
             }
         }
     }

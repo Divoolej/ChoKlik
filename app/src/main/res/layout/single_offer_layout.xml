@@ -25,28 +25,6 @@
         android:text="SUPER DUPER NOKIA CHECK IT OUT YOU FAGGOT"
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/typeBuyNow"
-        android:maxLines="1"
-        android:layout_above="@id/rl1"
-        android:text="Kup teraz"
-        android:layout_toRightOf="@id/offerImage"
-        android:textColor="@android:color/holo_orange_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"/>
-    <TextView
-        android:id="@+id/typeAuction"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@id/offerImage"
-        android:layout_above="@id/typeBuyNow"
-        android:maxLines="1"
-        android:text="Licytuj"
-        android:layout_marginBottom="3dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"/>
     <RelativeLayout
         android:id="@+id/rl1"
         android:layout_alignBottom="@id/offerImage"
@@ -76,5 +54,27 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
     </RelativeLayout>
+    <TextView
+        android:id="@+id/typeBuyNow"
+        android:maxLines="1"
+        android:layout_above="@id/rl1"
+        android:text="Kup teraz"
+        android:layout_toRightOf="@id/offerImage"
+        android:textColor="@android:color/holo_orange_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"/>
+    <TextView
+        android:id="@+id/typeAuction"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@id/offerImage"
+        android:layout_above="@id/typeBuyNow"
+        android:maxLines="1"
+        android:text="Licytuj"
+        android:layout_marginBottom="3dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"/>
 
 </RelativeLayout>
