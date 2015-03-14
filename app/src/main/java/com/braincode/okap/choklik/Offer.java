@@ -16,7 +16,8 @@ public class Offer {
     private String offerUrl;
     private boolean buyNow;
     private boolean auction;
-    private double price;
+    private double priceBuyNow;
+    private double priceAuction;
     private Long endingTime;
 
     public String getDescription() {
@@ -43,8 +44,12 @@ public class Offer {
         return auction;
     }
 
-    public double getPrice() {
-        return price;
+    public double getAuctionPrice() {
+        return priceAuction;
+    }
+
+    public double getBuyNowPrice() {
+        return priceBuyNow;
     }
 
     public String getEndingTimeString() {
@@ -65,9 +70,9 @@ public class Offer {
         auction = object.getBoolean("auction");
         endingTime = object.getLong("secondsLeft");
         if (isBuyNow())
-            price = object.getJSONObject("prices").getDouble("buyNow");
-        else
-            price = object.getJSONObject("prices").getDouble("bid");
+            priceBuyNow = object.getJSONObject("prices").getDouble("buyNow");
+        if (isAuction())
+            priceAuction = object.getJSONObject("prices").getDouble("bid");
     }
 
     @Override
@@ -77,7 +82,6 @@ public class Offer {
                 ", sellerName: " + sellerName +
                 ", offerUrl: " + offerUrl +
                 ", buyNow: " + Boolean.toString(buyNow) +
-                ", price: " + Double.toString(price) +
                 ", auction: " + Boolean.toString(auction) +
                 ", time left: " + getEndingTimeString());
     }

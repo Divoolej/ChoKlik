@@ -76,7 +76,6 @@
             android:layout_marginRight="10dp"
             android:layout_width="0dp"
             android:layout_toRightOf="@id/typeBuyNow"
-            android:text="12.14zł"
             android:layout_height="wrap_content"/>
 
 
@@ -105,7 +104,6 @@
             android:layout_marginRight="10dp"
             android:layout_width="0dp"
             android:layout_toRightOf="@id/typeAuction"
-            android:text="12.14zł"
             android:layout_height="wrap_content"/>
     </RelativeLayout>
 
