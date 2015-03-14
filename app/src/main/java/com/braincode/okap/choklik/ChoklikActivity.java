@@ -1,6 +1,8 @@
 package com.braincode.okap.choklik;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
@@ -145,6 +147,8 @@ public class ChoklikActivity extends ActionBarActivity {
                 super(getActivity(), 0, offers);
             }
 
+            Offer offer;
+
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 if (convertView == null) {
@@ -158,8 +162,8 @@ public class ChoklikActivity extends ActionBarActivity {
                         .findViewById(R.id.offerImage);
                 imageView.setImageResource(R.drawable.loading);
 
-                Offer offer = getItem(position);
-                if (offer.getPhotoUrl() != null)
+                offer = getItem(position);
+                if (offer.getPhotoUrl() != "shit")
                     imageThread.queueImage(imageView, offer.getPhotoUrl());
 
                 // Set the remaining fields:
@@ -179,7 +183,8 @@ public class ChoklikActivity extends ActionBarActivity {
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        startActivity(new Intent(Intent.ACTION_VIEW)
+                                .setData(Uri.parse(offer.getOfferUrl())));
                     }
                 });
 
