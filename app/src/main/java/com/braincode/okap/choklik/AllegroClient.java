@@ -107,6 +107,8 @@ public class AllegroClient {
             e.printStackTrace();
             Log.e(TAG, "Error while sending POST request, ", e);
         }
+        if (offers.size() == 0)
+            offers.add(new Offer());
         return offers;
     }
 }
