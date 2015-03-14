@@ -56,7 +56,9 @@ public class Offer {
 
     public Offer (JSONObject object) throws JSONException {
         description = object.getString("name");
-        photoUrl = object.getJSONObject("mainImage").getString("medium");
+        if (!object.isNull("mainImage"))
+            photoUrl = object.getJSONObject("mainImage").getString("medium");
+        else photoUrl = "shit";
         sellerName = object.getJSONObject("seller").getString("login");
         offerUrl = object.getJSONObject("source").getString("url");
         buyNow = object.getBoolean("buyNow");

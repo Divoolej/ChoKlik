@@ -21,7 +21,6 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class AllegroClient {
     public static final String TAG = "AlegroClient";
@@ -57,10 +56,6 @@ public class AllegroClient {
             connection.disconnect();
         }
     }
-//
-//    public String getUrl(String urlSpec) throws IOException {
-//        return new String(getUrlBytes(urlSpec));
-//    }
 
     public void doObtainSessionToken() {
         HttpClient client = new DefaultHttpClient();
