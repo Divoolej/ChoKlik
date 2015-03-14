@@ -232,9 +232,11 @@ public class ChoklikActivity extends ActionBarActivity {
                         .findViewById(R.id.descriptionText);
                 descriptionView.setText(offer.getDescription());
 
-                TextView remainingTimeView = (TextView)convertView
-                        .findViewById(R.id.remainingTime);
-                remainingTimeView.setText(offer.getEndingTimeString());
+                if (offer.getEndingTimeString() != "") {
+                    TextView remainingTimeView = (TextView) convertView
+                            .findViewById(R.id.remainingTime);
+                    remainingTimeView.setText(offer.getEndingTimeString());
+                }
 
                 TextView sellerNameView = (TextView)convertView
                         .findViewById(R.id.sellerName);
@@ -264,8 +266,10 @@ public class ChoklikActivity extends ActionBarActivity {
                 convertView.setOnClickListener(new OfferClickListener(offer) {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(Intent.ACTION_VIEW)
-                                .setData(Uri.parse(getMyOffer().getOfferUrl())));
+                        if (getMyOffer().getOfferUrl() != "") {
+                            startActivity(new Intent(Intent.ACTION_VIEW)
+                                    .setData(Uri.parse(getMyOffer().getOfferUrl())));
+                        }
                     }
                 });
 
