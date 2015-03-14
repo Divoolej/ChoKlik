@@ -1,6 +1,7 @@
 package com.braincode.okap.choklik;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -19,8 +20,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,17 +53,6 @@ public class ChoklikActivity extends ActionBarActivity {
 
         EditText editText = (EditText)findViewById(R.id.searchEditText);
         editText.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_DeviceDefault_Widget_ActionBar_Title);
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                    performSearch();
-                    return true;
-                }
-                return false;
-            }
-        });
-
     }
 
     @Override
@@ -83,14 +75,17 @@ public class ChoklikActivity extends ActionBarActivity {
         ArrayList<Offer> offers;
         ImageDownloader<ImageView> imageThread;
 
+        EditText editText;
+        ImageButton searchButton;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
+
             setRetainInstance(true);
 //            setHasOptionsMenu(true);
 
-            new FetchSearchResultsTask().execute("samsung");
 
             imageThread = new ImageDownloader<>(new Handler());
             imageThread.setListener(new ImageDownloader.Listener<ImageView>() {
@@ -101,6 +96,33 @@ public class ChoklikActivity extends ActionBarActivity {
                     }
                 }
             });
+
+            editText = (EditText)getActivity().findViewById(R.id.searchEditText);
+            editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        performSearch(editText.getText().toString());
+                        InputMethodManager imm = (InputMethodManager)getActivity()
+                                .getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+            searchButton = (ImageButton)getActivity().findViewById(R.id.searchButton);
+            searchButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    performSearch(editText.getText().toString());
+                    InputMethodManager imm = (InputMethodManager)getActivity()
+                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                }
+            });
+
             imageThread.start();
             imageThread.getLooper();
             Log.i(TAG, "Background thread started");
@@ -163,6 +185,10 @@ public class ChoklikActivity extends ActionBarActivity {
             } else {
                 itemsListView.setAdapter(null);
             }
+        }
+
+        public void performSearch(String searchQuery) {
+            new FetchSearchResultsTask().execute(searchQuery);
         }
 
         private class FetchSearchResultsTask extends AsyncTask<String, Void, ArrayList<Offer>> {
