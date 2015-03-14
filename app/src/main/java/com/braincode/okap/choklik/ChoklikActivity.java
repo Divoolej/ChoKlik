@@ -10,8 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChoklikActivity extends ActionBarActivity {
@@ -56,6 +58,7 @@ public class ChoklikActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends Fragment {
         ListView itemsListView;
+        ArrayList<Offer> offers;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -75,23 +78,32 @@ public class ChoklikActivity extends ActionBarActivity {
 
             itemsListView = (ListView)rootView.findViewById(R.id.itemsListView);
 
+            setupAdapter();
+
             return rootView;
         }
 
-        private class FetchSearchResultsTask extends AsyncTask<Void, Void, Void> {
+        private void setupAdapter() {
+            if (getActivity() == null || itemsListView == null) return;
+
+            if (offers != null) {
+                itemsListView.setAdapter(new ArrayAdapter<Offer>(getActivity(),
+                        android.R.layout.simple_list_item_1, offers));
+            } else {
+                itemsListView.setAdapter(null);
+            }
+        }
+
+        private class FetchSearchResultsTask extends AsyncTask<Void, Void, ArrayList<Offer>> {
             @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    List<Offer> offerList = new AllegroClient().fetchSearchResults();
-                    for(Offer offer : offerList) {
-                        Log.i(TAG, "Offer: " + offer);
-                    }
-//                    String result = new AllegroClient().getUrl("http://allegro.pl");
-//                    Log.i(TAG, "Fetched contents of URL: " + result);
-                } catch (Exception ioe) {
-                    Log.e(TAG, "Failed to fetch URL");
-                }
-                return null;
+            protected ArrayList<Offer> doInBackground(Void... params) {
+                return new AllegroClient().fetchSearchResults();
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<Offer> offerList) {
+                offers = offerList;
+                setupAdapter();
             }
         }
     }

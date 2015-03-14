@@ -33,35 +33,35 @@ public class AllegroClient {
 
     ArrayList<Offer> offers = new ArrayList<>();
 
-    byte[] getUrlBytes(String urlSpec) throws IOException {
-        URL url = new URL(urlSpec);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//    byte[] getUrlBytes(String urlSpec) throws IOException {
+//        URL url = new URL(urlSpec);
+//        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//
+//        try {
+//            ByteArrayOutputStream out = new ByteArrayOutputStream();
+//            InputStream in = connection.getInputStream();
+//
+//            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+//                return null;
+//            }
+//
+//            int bytesRead;
+//            byte[] buffer = new byte[1024];
+//            while ((bytesRead = in.read(buffer)) > 0) {
+//                out.write(buffer, 0, bytesRead);
+//            }
+//            out.close();
+//            return out.toByteArray();
+//        } finally {
+//            connection.disconnect();
+//        }
+//    }
+//
+//    public String getUrl(String urlSpec) throws IOException {
+//        return new String(getUrlBytes(urlSpec));
+//    }
 
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            InputStream in = connection.getInputStream();
-
-            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                return null;
-            }
-
-            int bytesRead;
-            byte[] buffer = new byte[1024];
-            while ((bytesRead = in.read(buffer)) > 0) {
-                out.write(buffer, 0, bytesRead);
-            }
-            out.close();
-            return out.toByteArray();
-        } finally {
-            connection.disconnect();
-        }
-    }
-
-    public String getUrl(String urlSpec) throws IOException {
-        return new String(getUrlBytes(urlSpec));
-    }
-
-    public List<Offer> fetchSearchResults() {
+    public ArrayList<Offer> fetchSearchResults() {
         HttpClient client = new DefaultHttpClient();
         HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
         HttpResponse response;
@@ -97,23 +97,4 @@ public class AllegroClient {
         }
         return new ArrayList<>();
     }
-//        try {
-//            RestAdapter restAdapter = new RestAdapter.Builder()
-//                    .setEndpoint(ENDPOINT)
-//                    .build();
-//
-//            SearchInterface searchService = restAdapter.create(SearchInterface.class);
-//            searchService.getSearchResults("nokia");
-//
-////            r.withHeader("Content-Type", "application/json");
-//
-//
-//            Log.i(TAG, "Search method url: " + url);
-//
-//        } catch (IOException ioe) {
-//            Log.e(TAG, "error while fetching search results", ioe);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

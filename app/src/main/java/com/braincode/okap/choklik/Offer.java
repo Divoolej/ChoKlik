@@ -57,6 +57,12 @@ public class Offer {
 
     @Override
     public String toString() {
-        return (description);
+        return ("description: " + description +
+                ", photoUrl: " + photoUrl +
+                ", sellerName: " + sellerName +
+                ", offerUrl: " + offerUrl +
+                ", buyNow: " + Boolean.toString(buyNow) +
+                ", price: " + Double.toString(price) +
+                ", auction: " + Boolean.toString(auction));
     }
 }
