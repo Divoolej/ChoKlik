@@ -6,10 +6,10 @@
     android:clickable="true">
     <ImageView
         android:id="@+id/offerImage"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_margin="5dp"
-        android:scaleType="fitCenter"
+        android:scaleType="centerCrop"
         android:contentDescription="@string/photoDescription"/>
     <TextView
         android:id="@+id/descriptionText"
@@ -25,7 +25,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>
     <RelativeLayout
-        android:id="@+id/rl1"
+        android:id="@+id/TimeRL"
         android:layout_alignBottom="@id/offerImage"
         android:layout_toEndOf="@id/offerImage"
         android:layout_toRightOf="@id/offerImage"
@@ -51,27 +51,62 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
     </RelativeLayout>
-    <TextView
-        android:id="@+id/typeBuyNow"
-        android:maxLines="1"
-        android:layout_above="@id/rl1"
-        android:text="Kup teraz"
+    <RelativeLayout
+        android:id="@+id/buyNowRL"
+        android:layout_width="140dp"
+        android:layout_height="15dp"
+        android:layout_above="@id/TimeRL"
         android:layout_toRightOf="@id/offerImage"
-        android:textColor="@android:color/holo_orange_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"/>
-    <TextView
-        android:id="@+id/typeAuction"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        >
+        <TextView
+            android:id="@+id/typeBuyNow"
+            android:maxLines="1"
+            android:text="@string/kupTeraz"
+            android:textColor="@android:color/holo_orange_dark"
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/buyNowPrice"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:gravity="end"
+            android:textAlignment="viewEnd"
+            android:layout_marginRight="10dp"
+            android:layout_width="0dp"
+            android:layout_toRightOf="@id/typeBuyNow"
+            android:text="12.14zł"
+            android:layout_height="wrap_content"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/auctionRL"
+        android:layout_width="140dp"
+        android:layout_above="@id/buyNowRL"
         android:layout_toRightOf="@id/offerImage"
-        android:layout_above="@id/typeBuyNow"
         android:maxLines="1"
-        android:text="Licytuj"
-        android:layout_marginBottom="3dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"/>
+        android:layout_height="15dp">
+        <TextView
+            android:id="@+id/typeAuction"
+            android:text="@string/licytuj"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"/>
+        <TextView
+            android:id="@+id/auctionPrice"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:gravity="end"
+            android:textAlignment="viewEnd"
+            android:layout_marginRight="10dp"
+            android:layout_width="0dp"
+            android:layout_toRightOf="@id/typeAuction"
+            android:text="12.14zł"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
 </RelativeLayout>

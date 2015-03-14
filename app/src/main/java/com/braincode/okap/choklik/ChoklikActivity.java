@@ -180,6 +180,11 @@ public class ChoklikActivity extends ActionBarActivity {
                         .findViewById(R.id.sellerName);
                 sellerNameView.setText(offer.getSellerName());
 
+                // TODO divovo
+//                TextView auctionPrice = (TextView)convertView
+//                        .findViewById(R.id.auctionPrice);
+//                auctionPrice.setText(offer.getPrice());
+
                 convertView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
