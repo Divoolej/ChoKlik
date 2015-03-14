@@ -174,7 +174,7 @@ public class ChoklikActivity extends ActionBarActivity {
 
                 ImageView imageView = (ImageView)convertView
                         .findViewById(R.id.offerImage);
-                imageView.setImageResource(R.drawable.loading);
+                imageView.setImageResource(R.drawable.camera);
 
                 Offer offer = getItem(position);
                 if (offer.getPhotoUrl() != "shit")
