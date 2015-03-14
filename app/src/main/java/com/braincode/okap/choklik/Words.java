@@ -69,16 +69,6 @@ public class Words {
         return map;
     }
 
-    public static void main(String[] args) {
-        try {
-            for (String s : getPossibleMisspelledWords("samsung dupa")) {
-                System.out.println(s);
-            }
-        } catch (WordsException we) {
-            System.out.println(we.getMessage());
-        }
-    }
-
     public static ArrayList<String> getPossibleMisspelledWords(String givenString) throws WordsException {
         String correctString = givenString.
                 replace(",", "").

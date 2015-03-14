@@ -61,7 +61,7 @@ public class AllegroClient {
 //        return new String(getUrlBytes(urlSpec));
 //    }
 
-    public ArrayList<Offer> fetchSearchResults() {
+    public ArrayList<Offer> fetchSearchResults(String searchTerm) {
         HttpClient client = new DefaultHttpClient();
         HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
         HttpResponse response;
@@ -72,7 +72,7 @@ public class AllegroClient {
 
         try {
             HttpPost post = new HttpPost(url);
-            json.put("searchString", "nokia");
+            json.put("searchString", searchTerm);
             StringEntity se = new StringEntity(json.toString());
             se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
             post.setEntity(se);
