@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -64,6 +65,7 @@ public class ChoklikActivity extends ActionBarActivity {
         ListView itemsListView;
         ArrayList<Offer> offers;
         ImageDownloader<ImageView> imageThread;
+        ImageButton lupka;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,15 @@ public class ChoklikActivity extends ActionBarActivity {
                     }
                 }
             });
+
+            lupka = new ImageButton(getActivity());
+            lupka.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //EditText.getTextORSTHLELEYB0SS
+                }
+            });
+
             imageThread.start();
             imageThread.getLooper();
             Log.i(TAG, "Background thread started");
