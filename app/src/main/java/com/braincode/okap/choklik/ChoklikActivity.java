@@ -18,8 +18,6 @@ import java.util.List;
 
 public class ChoklikActivity extends ActionBarActivity {
 
-    private static final String TAG = "ChoklikActivity";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +55,8 @@ public class ChoklikActivity extends ActionBarActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
+        public static final String TAG = "PlaceholderFragment";
+
         ListView itemsListView;
         ArrayList<Offer> offers;
 
