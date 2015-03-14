@@ -3,5 +3,6 @@
 
     <string name="app_name">Choklik</string>
     <string name="action_settings">Settings</string>
+    <string name="photoDescription">Item image</string>
 
 </resources>

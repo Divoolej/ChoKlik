@@ -1,9 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="match_parent"
     android:clickable="true">
+    <ImageView
+        android:id="@+id/offerImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="5dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/photoDescription"/>
+    <TextView
+        android:id="@+id/descriptionText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/offerImage"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textIsSelectable="false"
+        android:textSize="16sp"
+        android:layout_toRightOf="@+id/offerImage"
+        android:layout_toEndOf="@id/offerImage"
+        android:text="SUPER DUPER NOKIA CHECK IT OUT YOU FAGGOT"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/typeBuyNow"
+        android:maxLines="1"
+        android:layout_above="@id/rl1"
+        android:text="Kup teraz"
+        android:layout_toRightOf="@id/offerImage"
+        android:textColor="@android:color/holo_orange_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"/>
+    <TextView
+        android:id="@+id/typeAuction"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@id/offerImage"
+        android:layout_above="@id/typeBuyNow"
+        android:maxLines="1"
+        android:text="Licytuj"
+        android:layout_marginBottom="3dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"/>
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_alignBottom="@id/offerImage"
+        android:layout_toEndOf="@id/offerImage"
+        android:layout_toRightOf="@id/offerImage"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignLeft="@+id/descriptionText"
+        android:layout_alignStart="@+id/descriptionText">
+        <TextView
+            android:id="@+id/remainingTime"
+            android:maxLines="1"
+            android:text="12d 15h"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/sellerName"
+            android:layout_toRightOf="@id/remainingTime"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:gravity="end"
+            android:textAlignment="viewEnd"
+            android:layout_marginRight="10dp"
+            android:text="seba_91"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 
-
-</LinearLayout>
+</RelativeLayout>
