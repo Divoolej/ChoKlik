@@ -8,6 +8,7 @@ import java.io.IOException;
 /**
  * Created by hubert on 13.03.15.
  */
+
 public class Offer {
     private String description;
     private String photoUrl;
@@ -52,7 +53,8 @@ public class Offer {
         offerUrl = object.getJSONObject("source").getString("url");
         buyNow = object.getBoolean("buyNow");
         auction = object.getBoolean("auction");
-        price = object.getJSONObject("prices").getDouble("buyNow");
+        if (isBuyNow())
+            price = object.getJSONObject("prices").getDouble("buyNow");
     }
 
     @Override

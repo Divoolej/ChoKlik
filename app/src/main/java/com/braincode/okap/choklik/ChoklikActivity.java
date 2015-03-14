@@ -65,7 +65,7 @@ public class ChoklikActivity extends ActionBarActivity {
             super.onCreate(savedInstanceState);
 
             setRetainInstance(true);
-            new FetchSearchResultsTask().execute();
+            new FetchSearchResultsTask().execute("samsung");
         }
 
         public PlaceholderFragment() {
@@ -94,10 +94,10 @@ public class ChoklikActivity extends ActionBarActivity {
             }
         }
 
-        private class FetchSearchResultsTask extends AsyncTask<Void, Void, ArrayList<Offer>> {
+        private class FetchSearchResultsTask extends AsyncTask<String, Void, ArrayList<Offer>> {
             @Override
-            protected ArrayList<Offer> doInBackground(Void... params) {
-                return new AllegroClient().fetchSearchResults();
+            protected ArrayList<Offer> doInBackground(String... params) {
+                return new AllegroClient().fetchSearchResults(params[0]);
             }
 
             @Override
