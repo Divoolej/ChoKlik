@@ -1,6 +1,8 @@
 package com.braincode.okap.choklik;
 
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -70,7 +72,15 @@ public class ChoklikActivity extends ActionBarActivity {
             setRetainInstance(true);
             new FetchSearchResultsTask().execute("samsung");
 
-            imageThread = new ImageDownloader<>();
+            imageThread = new ImageDownloader<>(new Handler());
+            imageThread.setListener(new ImageDownloader.Listener<ImageView>() {
+                @Override
+                public void onImageDownloaded(ImageView imageView, Bitmap image) {
+                    if (isVisible()) {
+                        imageView.setImageBitmap(image);
+                    }
+                }
+            });
             imageThread.start();
             imageThread.getLooper();
             Log.i(TAG, "Background thread started");
@@ -96,6 +106,12 @@ public class ChoklikActivity extends ActionBarActivity {
             super.onDestroy();
             imageThread.quit();
             Log.i(TAG, "Background thread destroyed");
+        }
+
+        @Override
+        public void onDestroyView() {
+            super.onDestroyView();
+            imageThread.clearQueue();
         }
 
         private void setupAdapter() {
@@ -141,6 +157,8 @@ public class ChoklikActivity extends ActionBarActivity {
                 imageView.setImageResource(R.drawable.loading);
 
                 Offer offer = getItem(position);
+                if (offer.getPhotoUrl() != null)
+                    imageThread.queueImage(imageView, offer.getPhotoUrl());
 
                 return convertView;
             }
