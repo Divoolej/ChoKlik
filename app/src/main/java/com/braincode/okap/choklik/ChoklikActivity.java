@@ -42,8 +42,6 @@ public class ChoklikActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-//        EditText editText = new EditText(this);
-//        editText.setLayoutParams(new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT));
         getSupportActionBar().setCustomView(R.layout.actionbar);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
