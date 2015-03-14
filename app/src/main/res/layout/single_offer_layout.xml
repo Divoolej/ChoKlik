@@ -6,10 +6,10 @@
     android:clickable="true">
     <ImageView
         android:id="@+id/offerImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:layout_margin="5dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         android:contentDescription="@string/photoDescription"/>
     <TextView
         android:id="@+id/descriptionText"
@@ -22,7 +22,6 @@
         android:textSize="16sp"
         android:layout_toRightOf="@+id/offerImage"
         android:layout_toEndOf="@id/offerImage"
-        android:text="SUPER DUPER NOKIA CHECK IT OUT YOU FAGGOT"
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>
     <RelativeLayout
@@ -37,7 +36,6 @@
         <TextView
             android:id="@+id/remainingTime"
             android:maxLines="1"
-            android:text="12d 15h"
             android:layout_alignParentBottom="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,7 +48,6 @@
             android:gravity="end"
             android:textAlignment="viewEnd"
             android:layout_marginRight="10dp"
-            android:text="seba_91"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
     </RelativeLayout>

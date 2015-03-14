@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,6 +152,7 @@ public class ChoklikActivity extends ActionBarActivity {
                             .inflate(R.layout.single_offer_layout, parent, false);
                 }
 
+                // Set the image:
 
                 ImageView imageView = (ImageView)convertView
                         .findViewById(R.id.offerImage);
@@ -159,6 +161,27 @@ public class ChoklikActivity extends ActionBarActivity {
                 Offer offer = getItem(position);
                 if (offer.getPhotoUrl() != null)
                     imageThread.queueImage(imageView, offer.getPhotoUrl());
+
+                // Set the remaining fields:
+
+                TextView descriptionView = (TextView)convertView
+                        .findViewById(R.id.descriptionText);
+                descriptionView.setText(offer.getDescription());
+
+                TextView remainingTimeView = (TextView)convertView
+                        .findViewById(R.id.remainingTime);
+                remainingTimeView.setText(offer.getEndingTimeString());
+
+                TextView sellerNameView = (TextView)convertView
+                        .findViewById(R.id.sellerName);
+                sellerNameView.setText(offer.getSellerName());
+
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
 
                 return convertView;
             }
