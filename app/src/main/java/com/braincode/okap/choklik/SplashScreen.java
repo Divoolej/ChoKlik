@@ -9,7 +9,7 @@ import android.util.Log;
  * Created by divoolej on 14.03.15.
  */
 public class SplashScreen extends Activity {
-    private static final int TIME = 2000;
+    private static final int TIME = 20000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
