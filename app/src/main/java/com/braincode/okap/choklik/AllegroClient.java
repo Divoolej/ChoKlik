@@ -21,6 +21,7 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class AllegroClient {
@@ -28,47 +29,10 @@ public class AllegroClient {
 
     public static final String ENDPOINT = "https://api.natelefon.pl/";
     public static final String METHOD_OFFERS = "v2/allegro/offers";
-    public static final String METHOD_TOKEN = "/v1/oauth/token?grant_type=client_credentials";
 
     public static String sessionToken = "a3c4b2d53999682eb279e6efd8873ba6";
 
     ArrayList<Offer> offers = new ArrayList<>();
-
-//    byte[] getUrlBytes(String urlSpec) throws IOException {
-//        URL url = new URL(urlSpec);
-//        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//
-//        try {
-//            ByteArrayOutputStream out = new ByteArrayOutputStream();
-//            InputStream in = connection.getInputStream();
-//
-//            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-//                return null;
-//            }
-//
-//            int bytesRead;
-//            byte[] buffer = new byte[1024];
-//            while ((bytesRead = in.read(buffer)) > 0) {
-//                out.write(buffer, 0, bytesRead);
-//            }
-//            out.close();
-//            return out.toByteArray();
-//        } finally {
-//            connection.disconnect();
-//        }
-//    }
-//
-//    public String getUrl(String urlSpec) throws IOException {
-//        return new String(getUrlBytes(urlSpec));
-//    }
-
-    public void doObtainSessionToken() {
-        HttpClient client = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
-        HttpResponse response;
-        JSONObject json = new JSONObject();
-        String url = ENDPOINT + METHOD_TOKEN;
-    }
 
     public ArrayList<Offer> fetchSearchResults(String searchTerm) {
         HttpClient client = new DefaultHttpClient();
@@ -88,30 +52,30 @@ public class AllegroClient {
 
         try {
             HttpPost post = new HttpPost(url);
-            json.put("searchString", searchQueries.get(0));
-            StringEntity se = new StringEntity(json.toString());
-            se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-            post.setEntity(se);
-            response = client.execute(post);
+            for (String part : searchQueries) {
+                json.put("searchString", part);
+                StringEntity se = new StringEntity(json.toString());
+                se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+                post.setEntity(se);
+                response = client.execute(post);
 
-            if(response!=null) {
-                InputStream in = response.getEntity().getContent();
-                StringWriter writer = new StringWriter();
-                IOUtils.copy(in, writer);
-                JSONObject jsonObject = new JSONObject(writer.toString());
+                if (response != null) {
+                    InputStream in = response.getEntity().getContent();
+                    StringWriter writer = new StringWriter();
+                    IOUtils.copy(in, writer);
+                    JSONObject jsonObject = new JSONObject(writer.toString());
 
-                JSONArray array = jsonObject.getJSONArray("offers");
+                    JSONArray array = jsonObject.getJSONArray("offers");
 
-                for(int i = 0; i < array.length(); i++) {
-                    offers.add(new Offer(array.getJSONObject(i)));
-                    Log.d(TAG, offers.get(i).toString());
+                    for (int i = 0; i < array.length(); i++) {
+                        offers.add(new Offer(array.getJSONObject(i)));
+                    }
                 }
-                return offers;
             }
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "Error while sending POST request, ", e);
         }
-        return new ArrayList<>();
+        return offers;
     }
 }
