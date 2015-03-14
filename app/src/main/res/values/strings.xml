@@ -6,8 +6,8 @@
     <string name="photoDescription">Item image</string>
     <string name="kupTeraz">Kup teraz:</string>
     <string name="licytuj">Licytuj od:</string>
-    <string name="search">search</string>
-    <string name="clear_search">wyczyść</string>
+    <string name="search">Szukaj</string>
+    <string name="clear_search">Wyczyść</string>
     <string name="search_hint">Szukaj tutaj</string>
 
 </resources>
