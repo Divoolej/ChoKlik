@@ -49,7 +49,7 @@ public class ChoklikActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowCustomEnabled(true);
 
         EditText editText = (EditText)findViewById(R.id.searchEditText);
-        editText.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_DeviceDefault_SearchResult_Title);
+        editText.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_DeviceDefault_Widget_ActionBar_Title);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
