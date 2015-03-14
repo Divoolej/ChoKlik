@@ -194,24 +194,25 @@ public class ChoklikActivity extends ActionBarActivity {
                         .findViewById(R.id.sellerName);
                 sellerNameView.setText(offer.getSellerName());
 
+                TextView auctionPrice, bidText, buyNowPrice, buyNowText;
+                auctionPrice = (TextView)convertView.findViewById(R.id.auctionPrice);
+                bidText = (TextView)convertView.findViewById(R.id.typeAuction);
+                buyNowPrice = (TextView)convertView.findViewById(R.id.buyNowPrice);
+                buyNowText = (TextView)convertView.findViewById(R.id.typeBuyNow);
+
+                auctionPrice.setText("");
+                bidText.setText("");
+                buyNowPrice.setText("");
+                buyNowText.setText("");
+
                 if (offer.isAuction()) {
-                    TextView auctionPrice = (TextView)convertView
-                            .findViewById(R.id.auctionPrice);
-                    auctionPrice.setText(Double.toString(offer.getAuctionPrice()));
-                } else {
-                    TextView bidText = (TextView)convertView
-                            .findViewById(R.id.typeAuction);
-                    bidText.setText("");
+                    auctionPrice.setText(Double.toString(offer.getAuctionPrice()) + "zł");
+                    bidText.setText("Licytacja od:");
                 }
 
                 if (offer.isBuyNow()) {
-                    TextView buyNowPrice = (TextView)convertView
-                            .findViewById(R.id.buyNowPrice);
-                    buyNowPrice.setText(Double.toString(offer.getBuyNowPrice()));
-                } else {
-                    TextView buyNowText = (TextView)convertView
-                            .findViewById(R.id.typeBuyNow);
-                    buyNowText.setText("");
+                    buyNowPrice.setText(Double.toString(offer.getBuyNowPrice()) + "zł");
+                    buyNowText.setText("Kup teraz:");
                 }
 
                 convertView.setOnClickListener(new OfferClickListener(offer) {
