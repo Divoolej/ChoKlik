@@ -8,6 +8,7 @@ import java.io.IOException;
 /**
  * Created by hubert on 13.03.15.
  */
+
 public class Offer {
     private String description;
     private String photoUrl;
@@ -16,6 +17,7 @@ public class Offer {
     private boolean buyNow;
     private boolean auction;
     private double price;
+    private Long endingTime;
 
     public String getDescription() {
         return description;
@@ -45,6 +47,13 @@ public class Offer {
         return price;
     }
 
+    public String getEndingTimeString() {
+        int days = (int)(endingTime / 86400);
+        int hours = (int)((endingTime % 86400) / 3600);
+        int minutes = (int)(((endingTime % 86400) % 3600) / 60);
+        return Integer.toString(days) + "d " + Integer.toString(hours) + "h " + Integer.toString(minutes) + "min";
+    }
+
     public Offer (JSONObject object) throws JSONException {
         description = object.getString("name");
         photoUrl = object.getJSONObject("mainImage").getString("medium");
@@ -52,7 +61,9 @@ public class Offer {
         offerUrl = object.getJSONObject("source").getString("url");
         buyNow = object.getBoolean("buyNow");
         auction = object.getBoolean("auction");
-        price = object.getJSONObject("prices").getDouble("buyNow");
+        endingTime = object.getLong("secondsLeft");
+        if (isBuyNow())
+            price = object.getJSONObject("prices").getDouble("buyNow");
     }
 
     @Override
@@ -63,6 +74,7 @@ public class Offer {
                 ", offerUrl: " + offerUrl +
                 ", buyNow: " + Boolean.toString(buyNow) +
                 ", price: " + Double.toString(price) +
-                ", auction: " + Boolean.toString(auction));
+                ", auction: " + Boolean.toString(auction) +
+                ", time left: " + getEndingTimeString());
     }
 }

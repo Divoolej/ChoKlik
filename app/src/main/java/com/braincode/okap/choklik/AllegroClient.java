@@ -28,8 +28,9 @@ public class AllegroClient {
 
     public static final String ENDPOINT = "https://api.natelefon.pl/";
     public static final String METHOD_OFFERS = "v2/allegro/offers";
+    public static final String METHOD_TOKEN = "/v1/oauth/token?grant_type=client_credentials";
 
-    public static String sessionToken = "d8989ae782d7f18e43e308c66d014df4";
+    public static String sessionToken = "a3c4b2d53999682eb279e6efd8873ba6";
 
     ArrayList<Offer> offers = new ArrayList<>();
 
@@ -61,18 +62,33 @@ public class AllegroClient {
 //        return new String(getUrlBytes(urlSpec));
 //    }
 
+    public void doObtainSessionToken() {
+        HttpClient client = new DefaultHttpClient();
+        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
+        HttpResponse response;
+        JSONObject json = new JSONObject();
+        String url = ENDPOINT + METHOD_TOKEN;
+    }
+
     public ArrayList<Offer> fetchSearchResults(String searchTerm) {
         HttpClient client = new DefaultHttpClient();
         HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
         HttpResponse response;
         JSONObject json = new JSONObject();
+        ArrayList<String> searchQueries = new ArrayList<>();
 
         String tokenParam = "?access_token=" + sessionToken;
         String url = ENDPOINT + METHOD_OFFERS + tokenParam;
 
         try {
+            searchQueries = Words.getPossibleMisspelledWords(searchTerm);
+        } catch (Words.WordsException we) {
+            Log.i(TAG, we.getMessage());
+        }
+
+        try {
             HttpPost post = new HttpPost(url);
-            json.put("searchString", searchTerm);
+            json.put("searchString", searchQueries.get(0));
             StringEntity se = new StringEntity(json.toString());
             se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
             post.setEntity(se);
@@ -88,6 +104,7 @@ public class AllegroClient {
 
                 for(int i = 0; i < array.length(); i++) {
                     offers.add(new Offer(array.getJSONObject(i)));
+                    Log.d(TAG, offers.get(i).toString());
                 }
                 return offers;
             }

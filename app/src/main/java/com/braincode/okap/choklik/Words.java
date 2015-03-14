@@ -83,7 +83,7 @@ public class Words {
 
         ArrayList<String> result = new ArrayList<>();
 
-        String query = "{";
+        String query = "(";
         int count = 0;
 
         for (String word : wordsInString) {
@@ -93,16 +93,16 @@ public class Words {
                     query += correctString.replace(word, s) + ", ";
                     count++;
                     if (count == 10) {
-                        query = query.substring(0, query.length()-2) + "}";
+                        query = query.substring(0, query.length()-2) + ")";
                         result.add(query);
-                        query = "{";
+                        query = "(";
                         count = 0;
                     }
                 }
             }
         }
         if (count != 0) {
-            query = query.substring(0, query.length()-2) + "}";
+            query = query.substring(0, query.length()-2) + ")";
             result.add(query);
         }
 
@@ -151,7 +151,7 @@ public class Words {
         return true;
     }
 
-    private static class WordsException extends Exception {
+    public static class WordsException extends Exception {
         private String message;
         public WordsException(String message) {
             this.message = message;
