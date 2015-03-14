@@ -66,6 +66,8 @@ public class Offer {
         endingTime = object.getLong("secondsLeft");
         if (isBuyNow())
             price = object.getJSONObject("prices").getDouble("buyNow");
+        else
+            price = object.getJSONObject("prices").getDouble("bid");
     }
 
     @Override
