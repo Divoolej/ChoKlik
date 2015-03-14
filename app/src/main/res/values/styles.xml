@@ -7,7 +7,7 @@
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/DarkOrange</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
+
     </style>
 
 </resources>

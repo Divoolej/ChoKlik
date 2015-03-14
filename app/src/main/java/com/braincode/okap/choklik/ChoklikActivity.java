@@ -1,5 +1,6 @@
 package com.braincode.okap.choklik;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,13 +11,16 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,20 +42,23 @@ public class ChoklikActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+//        EditText editText = new EditText(this);
+//        editText.setLayoutParams(new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT));
+        getSupportActionBar().setCustomView(R.layout.actionbar);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        EditText editText = (EditText)findViewById(R.id.searchEditText);
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+//                    performSearch();
+                    return true;
+                }
+                return false;
+            }
+        });
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_choklik, menu);
-        return true;
     }
 
     @Override
@@ -79,7 +86,7 @@ public class ChoklikActivity extends ActionBarActivity {
             super.onCreate(savedInstanceState);
 
             setRetainInstance(true);
-            setHasOptionsMenu(true);
+//            setHasOptionsMenu(true);
 
             new FetchSearchResultsTask().execute("samsung");
 
@@ -100,24 +107,24 @@ public class ChoklikActivity extends ActionBarActivity {
         public PlaceholderFragment() {
         }
 
-        @Override
-        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-            super.onCreateOptionsMenu(menu, inflater);
-            inflater.inflate(R.menu.menu_choklik, menu);
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.menu_search:
-                    getActivity().onSearchRequested();
-                    return true;
-                case R.id.menu_clear:
-                    return true;
-                default:
-                    return super.onOptionsItemSelected(item);
-            }
-        }
+//        @Override
+//        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//            super.onCreateOptionsMenu(menu, inflater);
+//            inflater.inflate(R.menu.menu_choklik, menu);
+//        }
+//
+//        @Override
+//        public boolean onOptionsItemSelected(MenuItem item) {
+//            switch (item.getItemId()) {
+//                case R.id.menu_search:
+//                    getActivity().onSearchRequested();
+//                    return true;
+//                case R.id.menu_clear:
+//                    return true;
+//                default:
+//                    return super.onOptionsItemSelected(item);
+//            }
+//        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
