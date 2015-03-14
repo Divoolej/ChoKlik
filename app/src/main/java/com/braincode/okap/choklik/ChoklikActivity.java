@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,17 +50,9 @@ public class ChoklikActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
         //noinspection SimplifiableIfStatement
-        switch (item.getItemId()) {
-            case R.id.menu_search:
-//                getActivity.onSearchRequested();
-                return true;
-            case R.id.menu_clear:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -94,6 +87,25 @@ public class ChoklikActivity extends ActionBarActivity {
         }
 
         public PlaceholderFragment() {
+        }
+
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            super.onCreateOptionsMenu(menu, inflater);
+            inflater.inflate(R.menu.menu_choklik, menu);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_search:
+                    getActivity().onSearchRequested();
+                    return true;
+                case R.id.menu_clear:
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
         }
 
         @Override
@@ -151,8 +163,6 @@ public class ChoklikActivity extends ActionBarActivity {
                 super(getActivity(), 0, offers);
             }
 
-            Offer offer;
-
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 if (convertView == null) {
@@ -166,7 +176,7 @@ public class ChoklikActivity extends ActionBarActivity {
                         .findViewById(R.id.offerImage);
                 imageView.setImageResource(R.drawable.loading);
 
-                offer = getItem(position);
+                Offer offer = getItem(position);
                 if (offer.getPhotoUrl() != "shit")
                     imageThread.queueImage(imageView, offer.getPhotoUrl());
 
@@ -184,7 +194,6 @@ public class ChoklikActivity extends ActionBarActivity {
                         .findViewById(R.id.sellerName);
                 sellerNameView.setText(offer.getSellerName());
 
-                // TODO divovo <- It's Divoolej you prick
                 if (offer.isAuction()) {
                     TextView auctionPrice = (TextView)convertView
                             .findViewById(R.id.auctionPrice);
@@ -200,11 +209,11 @@ public class ChoklikActivity extends ActionBarActivity {
                     buyNowPrice.setText(Double.toString(offer.getBuyNowPrice()));
                 }
 
-                convertView.setOnClickListener(new View.OnClickListener() {
+                convertView.setOnClickListener(new OfferClickListener(offer) {
                     @Override
                     public void onClick(View v) {
                         startActivity(new Intent(Intent.ACTION_VIEW)
-                                .setData(Uri.parse(offer.getOfferUrl())));
+                                .setData(Uri.parse(getMyOffer().getOfferUrl())));
                     }
                 });
 
