@@ -29,7 +29,7 @@ public class AllegroClient {
     public static final String METHOD_OFFERS = "v2/allegro/offers";
     public static final String METHOD_TOKEN = "/v1/oauth/token?grant_type=client_credentials";
 
-    public static String sessionToken = "632398eda87c6265c9d33c0adf629956";
+    public static String sessionToken = "d656e310a8dff74f6f3f089252849e7c";
 
     ArrayList<Offer> offers = new ArrayList<>();
 
