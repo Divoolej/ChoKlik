@@ -189,15 +189,20 @@ public class ChoklikActivity extends ActionBarActivity {
                     TextView auctionPrice = (TextView)convertView
                             .findViewById(R.id.auctionPrice);
                     auctionPrice.setText(Double.toString(offer.getAuctionPrice()));
-                } else
-                {
-
+                } else {
+                    TextView bidText = (TextView)convertView
+                            .findViewById(R.id.typeAuction);
+                    bidText.setText("");
                 }
 
                 if (offer.isBuyNow()) {
                     TextView buyNowPrice = (TextView)convertView
                             .findViewById(R.id.buyNowPrice);
                     buyNowPrice.setText(Double.toString(offer.getBuyNowPrice()));
+                } else {
+                    TextView buyNowText = (TextView)convertView
+                            .findViewById(R.id.typeBuyNow);
+                    buyNowText.setText("");
                 }
 
                 convertView.setOnClickListener(new View.OnClickListener() {
