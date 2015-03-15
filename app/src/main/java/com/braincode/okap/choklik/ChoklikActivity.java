@@ -1,7 +1,5 @@
 package com.braincode.okap.choklik;
 
-import android.app.ActionBar;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,12 +9,9 @@ import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +20,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,8 +27,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class ChoklikActivity extends ActionBarActivity {
-
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +66,6 @@ public class ChoklikActivity extends ActionBarActivity {
         ListView itemsListView;
         ArrayList<Offer> offers;
         ImageDownloader<ImageView> imageThread;
-        ProgressDialog dialog;
 
         EditText editText;
         ImageButton searchButton;

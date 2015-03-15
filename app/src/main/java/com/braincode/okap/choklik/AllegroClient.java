@@ -27,7 +27,6 @@ public class AllegroClient {
 
     public static final String ENDPOINT = "https://api.natelefon.pl/";
     public static final String METHOD_OFFERS = "v2/allegro/offers";
-    public static final String METHOD_TOKEN = "/v1/oauth/token?grant_type=client_credentials";
 
     public static String sessionToken = "ba9e6c89f3c7455aa1e444721365877c";
 
@@ -55,14 +54,6 @@ public class AllegroClient {
         } finally {
             connection.disconnect();
         }
-    }
-
-    public void doObtainSessionToken() {
-        HttpClient client = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
-        HttpResponse response;
-        JSONObject json = new JSONObject();
-        String url = ENDPOINT + METHOD_TOKEN;
     }
 
     public ArrayList<Offer> fetchSearchResults(String searchTerm) {

@@ -1,9 +1,7 @@
 package com.braincode.okap.choklik;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by divoolej on 13.03.15.

@@ -3,8 +3,6 @@ package com.braincode.okap.choklik;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-
 /**
  * Created by hubert on 13.03.15.
  */
