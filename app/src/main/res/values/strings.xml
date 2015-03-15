@@ -8,7 +8,6 @@
     <string name="licytuj">Licytuj od:</string>
     <string name="search">Szukaj</string>
     <string name="clear_search">Wyczyść</string>
-    <string name="search_hint">Szukaj tutaj</string>
-    <string name="searchHint">Szukaj tutaj</string>
+    <string name="search_hint">Szukaj w allegro</string>
 
 </resources>

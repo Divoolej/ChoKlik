@@ -4,20 +4,29 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 
 /**
  * Created by divoolej on 14.03.15.
  */
 public class SplashScreen extends Activity {
-    private static final int TIME = 2000;
+    private static final int TIME = 20000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splashscreen);
-
         ActivityStarter starter = new ActivityStarter();
         starter.start();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Intent intent = new Intent(SplashScreen.this, ChoklikActivity.class);
+        startActivity(intent);
+        this.finish();
+        return true;
     }
 
     private class ActivityStarter extends Thread {
