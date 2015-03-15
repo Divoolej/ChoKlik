@@ -65,7 +65,7 @@
             android:textColor="@android:color/holo_orange_dark"
             android:layout_width="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textSize="14sp"/>
         <TextView
             android:id="@+id/buyNowPrice"
@@ -87,7 +87,7 @@
         android:layout_above="@id/buyNowRL"
         android:layout_toRightOf="@id/offerImage"
         android:maxLines="1"
-        android:layout_height="15dp">
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/typeAuction"
             android:text="@string/licytuj"

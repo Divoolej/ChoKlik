@@ -75,6 +75,18 @@ public class Offer {
             priceAuction = object.getJSONObject("prices").getDouble("bid");
     }
 
+    public Offer() {
+        description = "Nie ma wyników dla tego zapytania";
+        photoUrl = "shit";
+        sellerName = "";
+        offerUrl = "";
+        buyNow = false;
+        auction = false;
+        priceBuyNow = 0;
+        priceAuction = 0;
+        endingTime = 0L;
+    }
+
     @Override
     public String toString() {
         return ("description: " + description +

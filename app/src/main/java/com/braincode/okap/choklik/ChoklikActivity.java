@@ -1,5 +1,8 @@
 package com.braincode.okap.choklik;
 
+import android.app.ActionBar;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,42 +11,48 @@ import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ChoklikActivity extends ActionBarActivity {
+
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_choklik);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-    }
+        getSupportActionBar().setCustomView(R.layout.actionbar);
+        getSupportActionBar().setElevation(4);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_choklik, menu);
-        return true;
+        EditText editText = (EditText)findViewById(R.id.searchEditText);
+        editText.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_DeviceDefault_Widget_ActionBar_Title);
     }
 
     @Override
@@ -65,14 +74,19 @@ public class ChoklikActivity extends ActionBarActivity {
         ListView itemsListView;
         ArrayList<Offer> offers;
         ImageDownloader<ImageView> imageThread;
-        ImageButton lupka;
+        ProgressDialog dialog;
+
+        EditText editText;
+        ImageButton searchButton;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
+
             setRetainInstance(true);
-            new FetchSearchResultsTask().execute("samsung");
+//            setHasOptionsMenu(true);
+
 
             imageThread = new ImageDownloader<>(new Handler());
             imageThread.setListener(new ImageDownloader.Listener<ImageView>() {
@@ -84,11 +98,29 @@ public class ChoklikActivity extends ActionBarActivity {
                 }
             });
 
-            lupka = new ImageButton(getActivity());
-            lupka.setOnClickListener(new View.OnClickListener() {
+            editText = (EditText)getActivity().findViewById(R.id.searchEditText);
+            editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
-                public void onClick(View view) {
-                    //EditText.getTextORSTHLELEYB0SS
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        performSearch(editText.getText().toString());
+                        InputMethodManager imm = (InputMethodManager)getActivity()
+                                .getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                        return true;
+                    }
+                    return false;
+                }
+            });
+
+            searchButton = (ImageButton)getActivity().findViewById(R.id.searchButton);
+            searchButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    performSearch(editText.getText().toString());
+                    InputMethodManager imm = (InputMethodManager)getActivity()
+                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 }
             });
 
@@ -100,24 +132,24 @@ public class ChoklikActivity extends ActionBarActivity {
         public PlaceholderFragment() {
         }
 
-        @Override
-        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-            super.onCreateOptionsMenu(menu, inflater);
-            inflater.inflate(R.menu.menu_choklik, menu);
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.menu_search:
-                    getActivity().onSearchRequested();
-                    return true;
-                case R.id.menu_clear:
-                    return true;
-                default:
-                    return super.onOptionsItemSelected(item);
-            }
-        }
+//        @Override
+//        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//            super.onCreateOptionsMenu(menu, inflater);
+//            inflater.inflate(R.menu.menu_choklik, menu);
+//        }
+//
+//        @Override
+//        public boolean onOptionsItemSelected(MenuItem item) {
+//            switch (item.getItemId()) {
+//                case R.id.menu_search:
+//                    getActivity().onSearchRequested();
+//                    return true;
+//                case R.id.menu_clear:
+//                    return true;
+//                default:
+//                    return super.onOptionsItemSelected(item);
+//            }
+//        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -156,6 +188,10 @@ public class ChoklikActivity extends ActionBarActivity {
             }
         }
 
+        public void performSearch(String searchQuery) {
+            new FetchSearchResultsTask().execute(searchQuery);
+        }
+
         private class FetchSearchResultsTask extends AsyncTask<String, Void, ArrayList<Offer>> {
             @Override
             protected ArrayList<Offer> doInBackground(String... params) {
@@ -176,6 +212,7 @@ public class ChoklikActivity extends ActionBarActivity {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
+
                 if (convertView == null) {
                     convertView = getActivity().getLayoutInflater()
                             .inflate(R.layout.single_offer_layout, parent, false);
@@ -197,9 +234,11 @@ public class ChoklikActivity extends ActionBarActivity {
                         .findViewById(R.id.descriptionText);
                 descriptionView.setText(offer.getDescription());
 
-                TextView remainingTimeView = (TextView)convertView
-                        .findViewById(R.id.remainingTime);
-                remainingTimeView.setText(offer.getEndingTimeString());
+                if (offer.getEndingTimeString() != "") {
+                    TextView remainingTimeView = (TextView) convertView
+                            .findViewById(R.id.remainingTime);
+                    remainingTimeView.setText(offer.getEndingTimeString());
+                }
 
                 TextView sellerNameView = (TextView)convertView
                         .findViewById(R.id.sellerName);
@@ -229,8 +268,10 @@ public class ChoklikActivity extends ActionBarActivity {
                 convertView.setOnClickListener(new OfferClickListener(offer) {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(Intent.ACTION_VIEW)
-                                .setData(Uri.parse(getMyOffer().getOfferUrl())));
+                        if (getMyOffer().getOfferUrl() != "") {
+                            startActivity(new Intent(Intent.ACTION_VIEW)
+                                    .setData(Uri.parse(getMyOffer().getOfferUrl())));
+                        }
                     }
                 });
 

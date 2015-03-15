@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:clickable="true">
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/searchEditText"
+        android:imeOptions="actionSearch"
+        android:layout_width="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:hint="@string/searchHint"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchButton"
+        android:padding="2dp"
+        android:layout_alignParentRight="true"
+        android:background="@color/transparent"
+        android:src="@drawable/ic_search_white_36dp"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>
