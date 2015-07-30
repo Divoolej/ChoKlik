@@ -11,5 +11,7 @@ The user can click any auction and be redirected to the auction page on Allegro.
 
 ***Unfortunately ChoKlik doesn't work anymore.*** This is because Allegro changed their API tokens after the hackaton, so we cannot access the auctions anymore.
 
+[Video](https://www.youtube.com/watch?v=gJSxA_bbUEQ)
+
 ## Authors
-ChocKlik's authors are [Hubert Dworczynski](https://github.com/TrebuhD) &amp; [Wojciech Olejnik](https://github.com/Divoolej)
+ChoKlik's authors are [Hubert Dworczynski](https://github.com/TrebuhD) &amp; [Wojciech Olejnik](https://github.com/Divoolej)
